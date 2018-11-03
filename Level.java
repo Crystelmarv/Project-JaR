@@ -6,6 +6,7 @@ import java.awt.RenderingHints;
 public class Level
 {
   private Game game;
+  FirstGegner gegner;
 
   int bx = 0;
   int by = 0;
@@ -23,7 +24,7 @@ public class Level
       { 2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
       { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
       { 2, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-      { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+      { 1, 0, 0, 1, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
       { 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2 },
       { 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
       { 2, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 },
@@ -31,7 +32,7 @@ public class Level
       { 2, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 },
 
   };
-  Block[][] blocke = new Block[map.length][map[0].length];
+  Entity[][] blocke = new Entity[map.length][map[0].length];
   
   
   //map.length --> y Achse
@@ -41,7 +42,11 @@ public class Level
   /*
    * public static void main(String[] argv) { level(); }
    */
- 
+  public Level(Game game)
+  {
+    this.game = game;
+    
+  }
 
   public String getBlockId()
   {
@@ -71,43 +76,63 @@ public class Level
         {
         // Weiß
         case 0:
-          g.setColor(Color.WHITE);
+          
+          blocke[by][bx] = new Block(game);
+           blocke[by][bx].setBlock(x, y);
+          
           break;
         // helles Blau
         case 1:
-          g.setColor(new Color(0, 178, 238));
+         
+          blocke[by][bx] = new Block(game);
+          blocke[by][bx].setBlock(x, y);
+           
           break;
         // helles Grün
         case 2:
-          g.setColor(new Color(0, 238, 0));
+         
+          blocke[by][bx] = new Block(game);
+          blocke[by][bx].setBlock(x, y);
+           
           break;
         // Gelb
         case 3:
-          g.setColor(new Color(255, 255, 0));
+          
+          blocke[by][bx] = new Block(game);
+          blocke[by][bx].setBlock(x, y);
+           
           break;
         // Schwarz
         case 4:
-          g.setColor(Color.BLACK);
+          
+          blocke[by][bx] = new Block(game);
+          blocke[by][bx].setBlock(x, y);
+           
+           
           break;
         // Braun
         case 5:
-          g.setColor(new Color(139, 69, 19));
+          
+          blocke[by][bx] = new Block(game);
+           blocke[by][bx].setBlock(x, y);
+           
           break;
+        case 6:
+          
+          blocke[by][bx] = new FirstGegner(game);
+          blocke[by][bx].setBlock(x, y);
+          g.setColor(Color.WHITE);
+          g.fillRect(x, y, 64, 64);
+          
+        System.out.println(y);
+         // blocke[by][bx].paint(g);
+          break;
+          
 
-        }
-
-        blocke[by][bx] = new Block(game);
-        blocke[by][bx].setBlock(x, y);
-         g.fillRect(x, y, 64, 64);
-         
-         
-         
-        
+        }                                          
         x = x + 64;
-        
-
-        
-        g.fillRect(blocke[by][bx].blockX, blocke[by][bx].blockY, blocke[by][bx].blockBreite, blocke[by][bx].blockHöhe);
+               
+        //g.fillRect(blocke[by][bx].blockX, blocke[by][bx].blockY, blocke[by][bx].blockBreite, blocke[by][bx].blockHöhe);
         
         
         
@@ -129,7 +154,7 @@ public class Level
     }
     Graphics2D g2d = (Graphics2D) g;
     g.setColor(Color.BLUE);
-    g2d.draw(blocke[12][16].getBounds());
+   
   }
 
   public int blockArt(int x, int y)
