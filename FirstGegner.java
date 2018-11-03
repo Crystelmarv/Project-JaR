@@ -1,26 +1,25 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
-import java.util.stream.Collectors;
 
-public class Racquet
+public class FirstGegner extends Entity
 {
-  int y = 704;
-  private static final int WIDTH = 60;
-  private static final int HEIGHT = 60;
+
+  int y = 0;
+  private static final int WIDTH = 50;
+  private static final int HEIGHT = 50;
   int blockSize = 64;
-  int x = 600;
+  int x;
   int xa = 0;
   private Game game;
   boolean jump = false;
   int i;
   boolean right = false;
-  boolean left = false;
+  boolean left = true;
   boolean falling = false;
   int xTest;
   boolean ausgabe = false;
-  float speed = 6.75F;
+  float speed = 3.75F;
   int h = 0;
 
   boolean glitch = false;
@@ -42,21 +41,42 @@ public class Racquet
   int blockKorX2;
   int blockKorY2;
 
-  int yTemp;
   int xTemp;
 
-  float gravity = 0.22F;
-  float maxFallingSpeed = 5.5F;
-  float jumpStart = -7.0F;
+  int xSpawn;
+  int ySpawn;
+  boolean initi = true;
 
-  int lastY;
   int boundingBox;
   int boundingBoxTop;
   Rectangle rec;
 
-  public Racquet(Game game)
+  public FirstGegner(Game game)
   {
+
     this.game = game;
+
+    if (initi == true)
+    {
+
+      update();
+      initi = false;
+
+    }
+
+  }
+
+  public void setBlock(int xp, int yp)
+  {
+    System.out.println("s" + y);
+    x = xp;
+    y = yp;
+    xSpawn = x;
+    ySpawn = y;
+
+    y = y + (64 - HEIGHT) / 2;
+    System.out.println("5" + y);
+
   }
 
   public void update()
@@ -64,31 +84,30 @@ public class Racquet
 
     // System.out.println("move");
     // System.out.println(y);
-    yTemp = y;
+
     xTemp = x;
 
     // System.out.println("vorher");
     // System.out.println(y);
-
-    jumpGlitch();
+   
     // System.out.println("nacher");
     // System.out.println(y);
-    collision();
+    // collision();
     // System.out.println("coli");
     // System.out.println(x);
     if (glitch == false)
     {
-
+      ai();
       calculateMovement();
-      yTemp = y;
+
       xTemp = x;
 
       calculateCollision();
 
       // System.out.println(yTemp - y);
-      jumpGlitch();
+
       move();
-      collision();
+      // collision();
 
     }
     if (ausgabe)
@@ -96,8 +115,10 @@ public class Racquet
       // System.out.println(topLeft);
       // System.out.println(topRight);
       // System.out.println(bottomLeft);
-      System.out.println(bottomRight);
+      // System.out.println(bottomRight);
     }
+
+    // paint(gx);
 
   }
 
@@ -106,7 +127,7 @@ public class Racquet
     return rec = new Rectangle(x, y, WIDTH, HEIGHT);
   }
 
-  private void collision()
+  private boolean collision()
   {
     int xTemp;
 
@@ -114,22 +135,23 @@ public class Racquet
     {
       xTemp = x;
       // System.out.println(Level.map[getBlockKordinateY(y)][getBlockKordinateX(x)]);
-      if (game.level.blocke[getBlockKordinateY(y)][getBlockKordinateX(xTemp)].walkable == false)
+      if (Level.map[getBlockKordinateY(y)][getBlockKordinateX(xTemp)] != 0)
       {
-       
+
         while (game.level.blocke[getBlockKordinateY(y)][getBlockKordinateX(xTemp)].getBounds().intersects(getBounds()))
         {
 
           x = x + 1;
 
         }
+        return true;
       }
     }
 
-    if (right == true)
+    else if (right == true)
     {
       xTemp = x;
-      if (game.level.blocke[getBlockKordinateY(y)][getBlockKordinateX(xTemp) + 1].walkable == false)
+      if (Level.map[getBlockKordinateY(y)][getBlockKordinateX(xTemp) + 1] != 0)
       {
 
         while (game.level.blocke[getBlockKordinateY(y)][getBlockKordinateX(xTemp) + 1].getBounds()
@@ -138,71 +160,15 @@ public class Racquet
           x = x - 1;
 
         }
+        return true;
       }
-    }
-
-  }
-
-  private void glitchJump()
-  {
-
-  }
-
-  private void jumpGlitch()
-  {
-    int xTemp;
-    if (jump == false)
-      if (glitchInit == false)
-      {
-        h = yTemp - y;
-        if (h > 10)
-        {
-          glitchInit = true;
-          y = yTemp;
-          System.out.println("!HHHHHHHHHH");
-
-        }
-
-      }
-
-    if (glitchInit == true)
+    } else
     {
-      if ((h) > 3)
+      return false;
 
-      {
-        System.out.println(h);
-        glitch = true;
-
-        xTemp = x;
-
-        if (Level.map[getBlockKordinateY(y) + 1][getBlockKordinateX(xTemp) + 1] != 0)
-        {
-
-          while (game.level.blocke[getBlockKordinateY(y)][getBlockKordinateX(xTemp) + 1].getBounds()
-              .intersects(getBounds()))
-          {
-            x = x - 1;
-            System.out.println("x");
-
-          }
-        }
-        h = h - 3;
-        y = y - 3;
-
-        if (h <= 3)
-        {
-          glitch = false;
-          glitchInit = false;
-          jump = true;
-          System.out.println("GLITCH SOLVE");
-        }
-
-        /*
-         * dy += gravity; if (dy > maxFallingSpeed) { dy = maxFallingSpeed; }
-         * 
-         */
-      }
     }
+    return false;
+
   }
 
   private void calculateCollision()
@@ -329,86 +295,42 @@ public class Racquet
       dx = speed;
     }
 
-    if (falling == true && jump == false)
-    {
-      dy += gravity;
-      if (dy > maxFallingSpeed)
-      {
-        dy = maxFallingSpeed;
-      }
-    }
-
-    if (jump == true && falling == false)
-    {
-      dy = jumpStart;
-      jump = false;
-      falling = true;
-    }
-
   }
 
   public void move()
   {
 
     x += dx;
-    y += dy;
+    // System.out.println(y);
 
     dx = 0;
 
   }
 
+  public void ai()
+  {
+
+    if (midRight == true)
+    {
+      right = false;
+      left = true;
+
+    }
+
+    if (midLeft == true)
+    {
+      left = false;
+      right = true;
+    }
+  }
+
   public void paint(Graphics2D g)
   {
-    g.setColor(Color.BLACK);
+    walkable = true;
+
+    g.setColor(Color.RED);
     g.fillRect(x, y, WIDTH, HEIGHT);
-    
-    Graphics2D g2d = (Graphics2D) g;
 
-  }
-
-  public void keyReleased(KeyEvent ee)
-  {
-
-    int key2 = ee.getKeyCode();
-
-    switch (key2)
-    {
-    case KeyEvent.VK_LEFT:
-      left = false;
-      break;
-    case KeyEvent.VK_RIGHT:
-      right = false;
-      break;
-    case KeyEvent.VK_H:
-      ausgabe = false;
-      break;
-    }
-  }
-
-  public void keyPressed(KeyEvent e)
-  {
-
-    int key = e.getKeyCode();
-
-    switch (key)
-    {
-    case KeyEvent.VK_UP:
-      if (falling == false)
-      {
-        jump = true;
-      }
-      break;
-    case KeyEvent.VK_LEFT:
-      left = true;
-      break;
-    case KeyEvent.VK_RIGHT:
-      right = true;
-      break;
-    case KeyEvent.VK_H:
-      ausgabe = true;
-      break;
-
-    }
   }
 
   public float getX()
@@ -418,8 +340,7 @@ public class Racquet
 
   public void bodenFall()
   {
-    if (game.level.blocke[blockKorY + 1][blockKorX].walkable == true
-        && game.level.blocke[blockKorY + 1][blockKorX + 1].walkable == true && jump == false)
+    if (Level.map[blockKorY + 1][blockKorX] == 0 && Level.map[blockKorY + 1][blockKorX + 1] == 0 && jump == false)
     {
       System.out.println("0++++++++++++++++++");
       falling = true;
