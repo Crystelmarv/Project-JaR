@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 public class Racquet
 {
   int y = 704;
-  private static final int WIDTH = 60;
-  private static final int HEIGHT = 60;
+  private static int WIDTH = 60;
+  private static  int HEIGHT = 60;
   int blockSize = 64;
   int x = 600;
   int xa = 0;
@@ -22,9 +22,16 @@ public class Racquet
   boolean ausgabe = false;
   float speed = 6.75F;
   int h = 0;
+  
+  boolean tot = false;
 
   boolean glitch = false;
   boolean glitchInit = false;
+  
+  boolean angreifbar = true;
+  boolean timerGesetzt = false;
+  
+  double anfangsTime;
 
   // Collision
   boolean topLeft;
@@ -61,6 +68,8 @@ public class Racquet
 
   public void update()
   {
+    if ( tot == false)
+    {
 
     // System.out.println("move");
     // System.out.println(y);
@@ -74,6 +83,12 @@ public class Racquet
     // System.out.println("nacher");
     // System.out.println(y);
     collision();
+    
+   nichtAngreifbar();
+     sterbenFall();
+    
+     
+    
     // System.out.println("coli");
     // System.out.println(x);
     if (glitch == false)
@@ -96,9 +111,13 @@ public class Racquet
       // System.out.println(topLeft);
       // System.out.println(topRight);
       // System.out.println(bottomLeft);
-      System.out.println(bottomRight);
+  
     }
-
+    }
+    else
+    {
+      
+    }
   }
 
   public Rectangle getBounds()
@@ -159,7 +178,7 @@ public class Racquet
         {
           glitchInit = true;
           y = yTemp;
-          System.out.println("!HHHHHHHHHH");
+     
 
         }
 
@@ -170,7 +189,7 @@ public class Racquet
       if ((h) > 3)
 
       {
-        System.out.println(h);
+      
         glitch = true;
 
         xTemp = x;
@@ -182,7 +201,7 @@ public class Racquet
               .intersects(getBounds()))
           {
             x = x - 1;
-            System.out.println("x");
+           
 
           }
         }
@@ -194,7 +213,7 @@ public class Racquet
           glitch = false;
           glitchInit = false;
           jump = true;
-          System.out.println("GLITCH SOLVE");
+         
         }
 
         /*
@@ -226,7 +245,7 @@ public class Racquet
       dy = 0;
 
       int playerY = getBlockKordinateY((int) toY + HEIGHT);
-      System.out.println("MFUFFF");
+   
       y = playerY * blockSize - HEIGHT;
 
     }
@@ -242,7 +261,7 @@ public class Racquet
     {
       if (topLeft == true || midLeft == true || bottomLeft == true)
       {
-        System.out.println("*******************");
+    
         dx = 0;
       }
 
@@ -359,7 +378,15 @@ public class Racquet
 
   public void paint(Graphics2D g)
   {
-    g.setColor(Color.BLACK);
+    if(angreifbar == true)
+    {
+      g.setColor(Color.BLACK);
+    }
+    
+    if(angreifbar == false)
+    {
+      g.setColor(Color.ORANGE);
+    }
     g.fillRect(x, y, WIDTH, HEIGHT);
     
     Graphics2D g2d = (Graphics2D) g;
@@ -421,7 +448,7 @@ public class Racquet
     if (game.level.blocke[blockKorY + 1][blockKorX].walkable == true
         && game.level.blocke[blockKorY + 1][blockKorX + 1].walkable == true && jump == false)
     {
-      System.out.println("0++++++++++++++++++");
+     
       falling = true;
     }
   }
@@ -439,6 +466,60 @@ public class Racquet
   public int getBlockKordinateX(int x)
   {
     return blockKorX = x / blockSize;
+  }
+
+  public boolean sterben()
+  {
+    
+    
+   tot = true;
+ 
+  
+   
+   return tot;
+    
+  }
+  
+  public void sterbenFall()
+  {
+    int maxY;
+    
+    maxY = game.level.getMaxY();
+    
+    if(y > maxY)
+    {
+      sterben();
+    }
+  }
+
+  public void nichtAngreifbar()
+  {
+    double timeNow = System.nanoTime()/1000000000;
+    
+    if(timerGesetzt == false && game.leben.timerSetzen == true)
+    {
+      anfangsTime = System.nanoTime()/1000000000;
+      timerGesetzt = true;
+      angreifbar = false;
+      
+    }
+    else
+    {
+      
+      System.out.println(timeNow - anfangsTime);
+      if(timeNow - anfangsTime > 5)
+      {
+        angreifbar = true;
+        timerGesetzt = false;
+        game.leben.timerSetzen = false;
+      }
+    }
+    
+    
+    
+    
+    
+    
   }
 
 }

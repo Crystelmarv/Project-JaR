@@ -30,7 +30,7 @@ public class TimerBasedAnimation extends JPanel implements ActionListener {
   ActionListener updateProBar;
 
   public TimerBasedAnimation() {
-    setXY(20 * Math.random(), 200, 200);
+    setXY(200 * Math.random(), 200, 200);
 
     timer = new Timer(20, this);
     timer.setInitialDelay(190);

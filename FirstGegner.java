@@ -68,14 +68,14 @@ public class FirstGegner extends Entity
 
   public void setBlock(int xp, int yp)
   {
-    System.out.println("s" + y);
+  
     x = xp;
     y = yp;
     xSpawn = x;
     ySpawn = y;
 
     y = y + (64 - HEIGHT) / 2;
-    System.out.println("5" + y);
+  
 
   }
 
@@ -86,10 +86,11 @@ public class FirstGegner extends Entity
     // System.out.println(y);
 
     xTemp = x;
+    collision();
 
     // System.out.println("vorher");
     // System.out.println(y);
-   
+
     // System.out.println("nacher");
     // System.out.println(y);
     // collision();
@@ -129,47 +130,23 @@ public class FirstGegner extends Entity
 
   private boolean collision()
   {
-    int xTemp;
 
-    if (left == true)
+    if (game.racquet.getBounds().intersects(getBounds()))
     {
-      xTemp = x;
-      // System.out.println(Level.map[getBlockKordinateY(y)][getBlockKordinateX(x)]);
-      if (Level.map[getBlockKordinateY(y)][getBlockKordinateX(xTemp)] != 0)
-      {
 
-        while (game.level.blocke[getBlockKordinateY(y)][getBlockKordinateX(xTemp)].getBounds().intersects(getBounds()))
-        {
-
-          x = x + 1;
-
-        }
-        return true;
-      }
-    }
-
-    else if (right == true)
-    {
-      xTemp = x;
-      if (Level.map[getBlockKordinateY(y)][getBlockKordinateX(xTemp) + 1] != 0)
-      {
-
-        while (game.level.blocke[getBlockKordinateY(y)][getBlockKordinateX(xTemp) + 1].getBounds()
-            .intersects(getBounds()))
-        {
-          x = x - 1;
-
-        }
-        return true;
-      }
-    } else
-    {
-      return false;
+      game.leben.lebenAbziehen();
+      right =!right;
+      left =!left;
+      System.out.println("HIT");
 
     }
-    return false;
-
+    return true;
   }
+
+  
+
+ 
+  
 
   private void calculateCollision()
   {
@@ -192,7 +169,7 @@ public class FirstGegner extends Entity
       dy = 0;
 
       int playerY = getBlockKordinateY((int) toY + HEIGHT);
-      System.out.println("MFUFFF");
+    
       y = playerY * blockSize - HEIGHT;
 
     }
@@ -208,7 +185,7 @@ public class FirstGegner extends Entity
     {
       if (topLeft == true || midLeft == true || bottomLeft == true)
       {
-        System.out.println("*******************");
+      
         dx = 0;
       }
 
@@ -342,7 +319,7 @@ public class FirstGegner extends Entity
   {
     if (Level.map[blockKorY + 1][blockKorX] == 0 && Level.map[blockKorY + 1][blockKorX + 1] == 0 && jump == false)
     {
-      System.out.println("0++++++++++++++++++");
+      
       falling = true;
     }
   }

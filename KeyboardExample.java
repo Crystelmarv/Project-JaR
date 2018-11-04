@@ -14,12 +14,12 @@ public class KeyboardExample extends JPanel {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
+			
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
+		
 			}
 		};
 		addKeyListener(listener);

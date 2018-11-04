@@ -14,6 +14,7 @@ public class Game extends JPanel
   Racquet racquet = new Racquet(this);
   Level level = new Level(this);
   Kamera kam = new Kamera(0, 0, this);
+  Leben leben = new Leben(this);
   boolean tes = true;
   boolean tes2 = true;
   boolean tes3 = true;
@@ -72,9 +73,11 @@ public class Game extends JPanel
           level.gegner[k].update();
 
         }
+        leben.update(racquet);
       }
 
       kam.update(racquet);
+      
       racquet.update();
       for (i = 0; i < Level.map.length; i++)
       {
@@ -116,13 +119,14 @@ public class Game extends JPanel
     {
       for (k = 0; k < level.gegner.length; k++)
       {
-        System.out.println(k);
+       
         level.gegner[k].paint(g2d);
 
       }
       tes3 = false;
     }
-
+    
+    leben.paint(g2d);
     racquet.paint(g2d);
     ball.paint(g2d);
 

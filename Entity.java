@@ -37,7 +37,7 @@ public class Entity
 
   public void paint(Graphics2D g)
   {
-    System.out.println("++++++++++++++");
+    
   }
 
 }
