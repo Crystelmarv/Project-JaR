@@ -5,14 +5,14 @@ import java.awt.RenderingHints;
 
 public class Level
 {
-  private Game game;
+  private GameStates game;
   boolean start = false;
  
 
   int bx = 0;
   int by = 0;
   int maxY;
-  
+  boolean gegnerInLevel = false;
   static int map[][];
      
 
@@ -28,7 +28,7 @@ public class Level
   /*
    * public static void main(String[] argv) { level(); }
    */
-  public Level(Game game)
+  public Level(GameStates game)
   {
     this.game = game;
     
@@ -44,11 +44,15 @@ public class Level
    //System.out.println(map[0].length);
   //  System.out.println(blocke[0].length);
     for (iy = 0; iy < map.length; iy++)
+      
     {
+    //  System.out.println("y" +iy);
       for (ix = 0; ix < map[0].length; ix++)
       {
- 
+        
+       // System.out.println(ix);
         blockArt = blockArt(ix, iy);
+       System.out.println(map[iy][ix]);
         switch (blockArt)
         {
         // Weiß
@@ -63,6 +67,7 @@ public class Level
          
           blocke[by][bx] = new Block(game);
           blocke[by][bx].setBlock(x, y);
+          System.out.println("ööööööö");
            
           break;
         // helles Grün
@@ -85,7 +90,6 @@ public class Level
           blocke[by][bx] = new Block(game);
           blocke[by][bx].setBlock(x, y);
            
-           
           break;
         // Braun
         case 5:
@@ -96,15 +100,19 @@ public class Level
           break;
         case 6:
           k++;
+          System.out.println("555555555555");
           blocke[by][bx] = new Block(game);
           blocke[by][bx].setBlock(x, y);
          
-          
-        
          // blocke[by][bx].paint(g);
           break;
-          
-
+        case 7:
+          blocke[by][bx] = new BlockZerstoerbar(game);
+          blocke[by][bx].setBlock(x, y);                                   
+          break;
+          default:
+            System.out.println("deaf");
+            break;
         }                                          
         x = x + 64;
                
@@ -130,11 +138,17 @@ public class Level
     }
     
     maxY = y-64*2;
+    System.out.println("k" +k);
+    if(k > 0) 
+    {
+      gegner = new FirstGegner[k];
+      
+      
+      
+    }
    
-    gegner = new FirstGegner[k];
- 
     
-    gegnerSpawn();
+    
     
     
   }
@@ -151,11 +165,13 @@ public class Level
    
   }
 
-  public int blockArt(int x, int y)
+  public static int blockArt(int x, int y)
   {
     int blockArt;
+    
 
     blockArt = map[y][x];
+   
     return blockArt;
 
   }
@@ -173,11 +189,10 @@ public class Level
       {
         if(map[i][j]==6)
         {
-        
           gegner[k] = new FirstGegner(game);
           gegner[k].setBlock(x, y);
           k++;
-          
+          System.out.println("GEGNAZ");
         }
         x = x + 64;
         
@@ -185,6 +200,7 @@ public class Level
       x = 0;
       y = y + 64;
     }
+    gegnerInLevel = true;
    
   }
 

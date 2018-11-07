@@ -5,6 +5,7 @@ import java.io.IOException;
 
 public class LevelFileReader
 {
+  static boolean levelGelesen = false;
   
 
   public LevelFileReader()
@@ -36,6 +37,7 @@ public class LevelFileReader
       }
       y++;
     }
+    levelGelesen = true;
 
   }
 
@@ -70,8 +72,7 @@ public class LevelFileReader
     while ((currentLine = bufferedReader.readLine()) != null)
     {
       if(currentLine == null)
-      {
-        
+      {        
       }
       else
       {

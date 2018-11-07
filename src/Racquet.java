@@ -6,12 +6,12 @@ import java.util.stream.Collectors;
 
 public class Racquet
 {
-  int y = 704;
+  int y = 900;
   private static int WIDTH = 60;
   private static  int HEIGHT = 60;
   int blockSize = 64;
   int x = 600;
-  private Game game;
+  private GameStates game;
   boolean jump = false;
   int i;
   boolean right = false;
@@ -57,9 +57,9 @@ public class Racquet
   int lastY;
   Rectangle rec;
 
-  public Racquet(Game game)
+  public Racquet(GameStates gameStates)
   {
-    this.game = game;
+    this.game = gameStates;
   }
 
   public void update()
@@ -509,7 +509,7 @@ public class Racquet
     else
     {
       
-      System.out.println(timeNow - anfangsTime);
+  //    System.out.println(timeNow - anfangsTime);
       if(timeNow - anfangsTime > 5)
       {
         angreifbar = true;

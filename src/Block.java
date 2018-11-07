@@ -5,22 +5,23 @@ import java.awt.Rectangle;
 public class Block extends Entity
 {
 
-  private Game game;
+  private GameStates game;
 
   int blockHöhe = 64;
   int blockBreite = 64;
   Rectangle rec;
   Level level;
+  
 
-  public Block(Game game)
+  public Block(GameStates game)
   {
     this.game = game;
   }
 
   public void paint(Graphics2D g)
   {
-
-    switch (blockArt(x, y))
+//EIGENTLICH MUSS JA NICHT MMER ABGEFRAGT WWERDEN ICH KÖNNTE IENFACH EINE VARIABLE IN DER DIE BEIM ERSTELLEN DES ONJEKTES DIE NUMMER GESPICHERT WIRD
+    switch (Level.blockArt(x/64, y/64))
     {
     // Weiß
     case 0:
@@ -69,7 +70,7 @@ public class Block extends Entity
    
   }
 
-  public int blockArt(int x, int y)
+ /* public int blockArt(int x, int y)
   {
     int blockArt;
 
@@ -77,6 +78,7 @@ public class Block extends Entity
     return blockArt;
 
   }
+  */
 
   public void update()
   {
