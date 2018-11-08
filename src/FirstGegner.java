@@ -11,7 +11,7 @@ public class FirstGegner extends Entity
   int blockSize = 64;
   int x;
   int xa = 0;
-  private Game game;
+  private GameStates game;
   boolean jump = false;
   int i;
   boolean right = false;
@@ -51,15 +51,15 @@ public class FirstGegner extends Entity
   int boundingBoxTop;
   Rectangle rec;
 
-  public FirstGegner(Game game)
+  public FirstGegner(GameStates gameStates)
   {
 
-    this.game = game;
+    this.game = gameStates;
 
     if (initi == true)
     {
 
-      update();
+     // update();
       initi = false;
 
     }
@@ -74,7 +74,7 @@ public class FirstGegner extends Entity
     xSpawn = x;
     ySpawn = y;
 
-    y = y + (64 - HEIGHT) / 2;
+    ;
   
 
   }
@@ -88,6 +88,8 @@ public class FirstGegner extends Entity
     xTemp = x;
     collision();
 
+    
+    y = y;
     // System.out.println("vorher");
     // System.out.println(y);
 
@@ -137,16 +139,9 @@ public class FirstGegner extends Entity
       game.leben.lebenAbziehen();
       right =!right;
       left =!left;
-      System.out.println("HIT");
-
     }
     return true;
   }
-
-  
-
- 
-  
 
   private void calculateCollision()
   {
@@ -315,14 +310,7 @@ public class FirstGegner extends Entity
     return x;
   }
 
-  public void bodenFall()
-  {
-    if (Level.map[blockKorY + 1][blockKorX] == 0 && Level.map[blockKorY + 1][blockKorX + 1] == 0 && jump == false)
-    {
-      
-      falling = true;
-    }
-  }
+
 
   public int getBlockKordinateY(int y)
   {

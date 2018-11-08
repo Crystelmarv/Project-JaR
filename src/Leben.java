@@ -7,12 +7,12 @@ public class Leben
   int aktuelleLeben = maxLeben;
   float[] x;
   float y;
-  Game game;
+  GameStates game;
   boolean tot = false;
   boolean timerSetzen = false;
 
   
-  public Leben(Game game)
+  public Leben(GameStates game)
   {
     this.game = game;
  

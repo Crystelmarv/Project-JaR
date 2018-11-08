@@ -5,7 +5,9 @@ import java.io.IOException;
 
 public class LevelFileReader
 {
-  
+  static boolean levelGelesen = false;
+  static String levelPfad ="";
+  static int level = 1;
 
   public LevelFileReader()
   {
@@ -23,7 +25,8 @@ public class LevelFileReader
 
     String currentLine;
 
-    FileReader fileReader = new FileReader("res/level/1.Level.txt");
+    setLevelPfad();
+    FileReader fileReader = new FileReader(levelPfad);
     BufferedReader bufferedReader = new BufferedReader(fileReader);
 
     while ((currentLine = bufferedReader.readLine()) != null)
@@ -36,6 +39,7 @@ public class LevelFileReader
       }
       y++;
     }
+    levelGelesen = true;
 
   }
 
@@ -43,8 +47,8 @@ public class LevelFileReader
   {
 
     String currentLine;
-
-    FileReader fileReader = new FileReader("res/level/1.Level.txt");
+    setLevelPfad();
+    FileReader fileReader = new FileReader(levelPfad);
     BufferedReader bufferedReader = new BufferedReader(fileReader);
     
     
@@ -63,15 +67,14 @@ public class LevelFileReader
     int i = 0;
 
     String currentLine;
-
-    FileReader fileReader = new FileReader("res/level/1.Level.txt");
+    setLevelPfad();
+    FileReader fileReader = new FileReader(levelPfad);
     BufferedReader bufferedReader = new BufferedReader(fileReader);
     
     while ((currentLine = bufferedReader.readLine()) != null)
     {
       if(currentLine == null)
-      {
-        
+      {        
       }
       else
       {
@@ -95,6 +98,20 @@ public class LevelFileReader
     
    Level.setMap(i, j);
     
+  }
+  
+  public static void setLevelPfad()
+  {
+    switch(level)
+    {
+    case 1:
+      levelPfad = "res/level/1.Level.txt";
+      break;
+      
+    case 2:
+      levelPfad = "res/level/2.Level.txt";
+      break;
+    }
   }
 
 }

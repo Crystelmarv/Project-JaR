@@ -2,16 +2,17 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.stream.Collectors;
 
 public class Racquet
 {
-  int y = 704;
+  int y = 900;
   private static int WIDTH = 60;
   private static  int HEIGHT = 60;
   int blockSize = 64;
   int x = 600;
-  private Game game;
+  private GameStates game;
   boolean jump = false;
   int i;
   boolean right = false;
@@ -57,9 +58,11 @@ public class Racquet
   int lastY;
   Rectangle rec;
 
-  public Racquet(Game game)
+  public Racquet(GameStates gameStates)
   {
-    this.game = game;
+    this.game = gameStates;
+   
+    
   }
 
   public void update()
@@ -412,6 +415,7 @@ public class Racquet
 
   public void keyPressed(KeyEvent e)
   {
+   
 
     int key = e.getKeyCode();
 
@@ -509,7 +513,7 @@ public class Racquet
     else
     {
       
-      System.out.println(timeNow - anfangsTime);
+  //    System.out.println(timeNow - anfangsTime);
       if(timeNow - anfangsTime > 5)
       {
         angreifbar = true;
