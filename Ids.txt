@@ -1,0 +1,4 @@
+6 = Gegner
+7 = Oranger Block
+8 = Blauer Block
+9 = Schild

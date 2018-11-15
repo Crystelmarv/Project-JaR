@@ -2,7 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
-public class FirstGegner extends Entity
+public class ItemLebenPlus extends Item
 {
 
   int y = 0;
@@ -14,8 +14,8 @@ public class FirstGegner extends Entity
   private GameStates game;
   boolean jump = false;
   int i;
-  boolean right = false;
-  boolean left = true;
+  boolean right = true;
+  boolean left = false;
   boolean falling = false;
   int xTest;
   boolean ausgabe = false;
@@ -47,15 +47,24 @@ public class FirstGegner extends Entity
   int ySpawn;
   boolean initi = true;
 
+  float gravity = 0.22F;
+  float maxFallingSpeed = 5.5F;
+  float jumpStart = -7.0F;
+  
+  boolean test = false;
+  
   int boundingBox;
   int boundingBoxTop;
   Rectangle rec;
 
-  public FirstGegner(GameStates gameStates)
+  public ItemLebenPlus(GameStates gameStates, int xp, int yp)
   {
 
     this.game = gameStates;
-
+    x = xp;
+    y = yp;
+    xSpawn = x;
+    ySpawn = y;
     if (initi == true)
     {
 
@@ -69,10 +78,7 @@ public class FirstGegner extends Entity
   public void setBlock(int xp, int yp)
   {
   
-    x = xp;
-    y = yp;
-    xSpawn = x;
-    ySpawn = y;
+    
   }
 
   public void update()
@@ -131,9 +137,17 @@ public class FirstGegner extends Entity
     if (game.racquet.getBounds().intersects(getBounds()))
     {
 
-      game.leben.lebenAbziehen();
-      right =!right;
-      left =!left;
+      if(test == false)
+      {
+        game.leben.lebenPlus();
+        
+        
+        game.items.remove(aktuellesItem);
+        System.out.println("REMOOOOV");
+        test = true;
+      }
+     
+     
     }
     return true;
   }
@@ -261,6 +275,22 @@ public class FirstGegner extends Entity
     {
       dx = speed;
     }
+    
+    if (falling == true && jump == false)
+    {
+      dy += gravity;
+      if (dy > maxFallingSpeed)
+      {
+        dy = maxFallingSpeed;
+      }
+    }
+
+    if (jump == true && falling == false)
+    {
+      dy = jumpStart;
+      jump = false;
+      falling = true;
+    }
 
   }
 
@@ -268,7 +298,8 @@ public class FirstGegner extends Entity
   {
 
     x += dx;
-    // System.out.println(y);
+    y += dy;
+   
 
     dx = 0;
 
@@ -293,9 +324,9 @@ public class FirstGegner extends Entity
 
   public void paint(Graphics2D g)
   {
-    walkable = true;
+   // walkable = true;
 
-    g.setColor(Color.RED);
+    g.setColor(Color.GREEN);
     g.fillRect(x, y, WIDTH, HEIGHT);
 
   }
@@ -322,4 +353,5 @@ public class FirstGegner extends Entity
     return blockKorX = x / blockSize;
   }
 
+ 
 }

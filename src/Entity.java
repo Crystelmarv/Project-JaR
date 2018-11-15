@@ -1,3 +1,4 @@
+
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
@@ -9,10 +10,12 @@ public class Entity
   int blockBreite = 64;
   int blockHöhe = 64;
 
-  boolean walkable = false;
+  
 
   Graphics2D gx;
   Block block;
+  boolean walkable;
+  
 
   public void setBlock(int xp, int yp)
   {
@@ -32,11 +35,17 @@ public class Entity
   public void update()
   {
 
-    block.update();
+   // block.update();
   }
 
   public void paint(Graphics2D g)
   {
+    
+  }
+
+  public void setIndex(int indexSchild)
+  {
+    // TODO Auto-generated method stub
     
   }
 

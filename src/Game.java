@@ -1,6 +1,5 @@
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
@@ -11,83 +10,73 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class Game extends JPanel
 {
+  static JFrame frame;
+  GameStates gameState = new GameStates(this);
+  // static KeyLis keyLis = new KeyLis(this, frame);
 
-  
-  Racquet racquet = new Racquet(this);
-  Level level = new Level(this);
-  Kamera kam = new Kamera(0, 0, this);
-  Leben leben = new Leben(this);
-  boolean tes = true;
-  boolean tes2 = true;
-  boolean tes3 = true;
+  static boolean init1 = false;
+  boolean init2 = true;
+  boolean init3 = true;
+  static boolean init4 = false;
+  static String modus = "levelSelect";
 
   static int wHoehe = 900;
   static int wBreite = 1450;
 
+  static boolean modusSet = false;
+  KeyListener key;
+
   public Game()
   {
+
     repaint();
-    addKeyListener(new KeyListener()
+
+    addKeyListener(key = new KeyListener()
     {
+
       @Override
       public void keyTyped(KeyEvent e)
       {
+        // TODO Auto-generated method stub
+
       }
 
       @Override
       public void keyReleased(KeyEvent e)
       {
-        racquet.keyReleased(e);
+        gameState.racquet.keyReleased(e);
+
       }
 
       @Override
       public void keyPressed(KeyEvent e)
       {
-        racquet.keyPressed(e);
+        gameState.racquet.keyPressed(e);
+
       }
     });
+
     setFocusable(true);
+
   }
 
   private void move() throws InterruptedException
   {
-  
 
   }
 
   private void update()
+
   {
-    int i, j, k;
-
-    if (tes == false)
+    // keyLIs.KeyLisInit();
+    switch (modus)
     {
-      if (tes2 == true)
-      {
+    case "levelSelect":
 
-        tes2 = false;
-
-      }
-      if (tes3 == false)
-      {
-        for (k = 0; k < level.gegner.length; k++)
-        {
-
-          level.gegner[k].update();
-
-        }
-        leben.update(racquet);
-      }
-
-      kam.update(racquet);
-      
-      racquet.update();
-      for (i = 0; i < Level.map.length; i++)
-      {
-        for (j = 0; j < Level.map[0].length; j++)
-        {
-          level.blocke[i][j].update();
-        }
-      }
+      break;
+    case "level":
+      gameState.levelUpdate();
+      break;
     }
 
   }
@@ -95,84 +84,124 @@ public class Game extends JPanel
   @Override
   public void paint(Graphics g)
   {
-    int i, j, k;
-
     super.paint(g);
     Graphics2D g2d = (Graphics2D) g;
-    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-    //////////////////////
-    g2d.translate(kam.getX(), kam.getY());
-    
-    
-    if (tes == true)
+    switch (modus)
     {
-      level.paint(g2d);
-      tes = false;
-    }
-
-    for (i = 0; i < Level.map.length; i++)
-    {
-      for (j = 0; j < Level.map[0].length; j++)
+    case "levelSelect":
+      System.out.println(init4);
+      if (init4 == true)
       {
-        level.blocke[i][j].paint(g2d);
-      }
-    }
-
-    if (tes2 == false)
-    {
-      for (k = 0; k < level.gegner.length; k++)
-      {
-       
-        level.gegner[k].paint(g2d);
+        gameState.menuePaint(g2d);
+        System.out.println("PAINT");
 
       }
-      tes3 = false;
+
+      break;
+
+    case "level":
+      if (init1 == true)
+      {
+        gameState.levelPaint(g2d);
+      }
+      break;
     }
-    
-    leben.paint(g2d);
-    racquet.paint(g2d);
-  
-    // block.paint(g2d);
-
-    g2d.translate(-kam.getX(), kam.getY());
-
-  }
-
-  public void gameOver()
-  {
-    // JOptionPane.showMessageDialog(this, "Game Over", "Game Over",
-    // JOptionPane.YES_NO_OPTION);
-    // System.exit(ABORT);
   }
 
   public static void main(String[] args) throws InterruptedException, IOException
   {
-    
-    LevelFileReader.LevelRead();
-   
-    
-    JFrame frame = new JFrame("Mini Tennis");
+    double fps = 100.0;
+    double timePerTick = 1000000000.0 / fps;
+    double delta = 0.0;
+    long now;
+    long lastTime = System.nanoTime();
+    int ticks = 0;
+    long timer = 0;
+
+    frame = new JFrame("");
     Game game = new Game();
+
     frame.add(game);
+
     frame.setSize(wBreite, wHoehe);
     frame.setTitle("Mal wieder ein Test");
     frame.setResizable(true);
     frame.setLocationRelativeTo(null);
     frame.setVisible(true);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    Assets.init();
-    
-    
+
     while (true)
     {
-      game.move();
-      game.update();
-      game.repaint();
+      now = System.nanoTime();
+      delta += (now - lastTime) / timePerTick;
+      timer += now - lastTime;
+      lastTime = now;
 
-      // System.out.println(Racquet.x);
+      if (delta >= 1.0)
+      {
+        switch (modus)
+        {
+        case "levelSelect":
+          System.out.println("while modus");
+          game.requestFocus();
+          game.modus();
 
-      Thread.sleep(10);
+          game.repaint();
+          // System.out.println(Racquet.x);
+
+          break;
+
+        case "level":
+          game.requestFocus();
+          game.modus();
+          game.move();
+          game.update();
+          game.repaint();
+          // System.out.println(Racquet.x);
+
+          break;
+        }
+        ticks++;
+        delta--;
+      }
+      Thread.sleep(1);
+      if (timer >= 1000000000)
+      {
+        System.out.println("FPS: " + ticks);
+        ticks = 0;
+        timer = 0;
+      }
+
+      game.modus();
+    }
+
+  }
+
+  public void modus() throws IOException
+  {
+
+    switch (modus)
+    {
+    case "levelSelect":
+      if (modusSet == false)
+      {
+        gameState.menueInit();
+        modusSet = true;
+        init4 = true;
+      }
+
+      break;
+
+    case "level":
+      if (modusSet == false)
+      {
+        gameState.levelErstellen();
+        modusSet = true;
+      }
+
+      break;
     }
   }
+
 }

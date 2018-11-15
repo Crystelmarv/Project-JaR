@@ -12,7 +12,7 @@ public class Assets
   private static int breite = 64;
   private static int hoehe = 64;
   
-  public static BufferedImage gras, erde;
+  public static BufferedImage gras, erde, blauerBlock, orangerBlock, schild, orangerBlockOhneKreuz;
   
   public static void init()
   {
@@ -27,6 +27,11 @@ public class Assets
     
     gras = sheet.crop(0, 0, breite, hoehe);
     erde = sheet.crop(breite, 0, breite, hoehe);
+    blauerBlock = sheet.crop(breite * 2, 0, breite, hoehe);
+    orangerBlock = sheet.crop(breite * 3, 0, breite, hoehe);
+    schild = sheet.crop(breite * 4, 0, breite, hoehe);
+    orangerBlockOhneKreuz = sheet.crop(0, hoehe, breite, hoehe);
+    
   }
   
   

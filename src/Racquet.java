@@ -2,16 +2,17 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.stream.Collectors;
 
 public class Racquet
 {
-  int y = 704;
+  int y = 900;
   private static int WIDTH = 60;
-  private static  int HEIGHT = 60;
+  private static int HEIGHT = 60;
   int blockSize = 64;
   int x = 600;
-  private Game game;
+  private GameStates game;
   boolean jump = false;
   int i;
   boolean right = false;
@@ -20,15 +21,18 @@ public class Racquet
   boolean ausgabe = false;
   float speed = 6.75F;
   int h = 0;
-  
+
   boolean tot = false;
 
   boolean glitch = false;
   boolean glitchInit = false;
-  
+
   boolean angreifbar = true;
   boolean timerGesetzt = false;
-  
+
+  boolean timerGesetztItem = false;
+  double anfangsTimeItem;
+
   double anfangsTime;
 
   // Collision
@@ -38,6 +42,7 @@ public class Racquet
   boolean midRight;
   boolean bottomLeft;
   boolean bottomRight;
+  boolean interaction;
   float dx;
   float dy;
 
@@ -52,67 +57,79 @@ public class Racquet
 
   float gravity = 0.22F;
   float maxFallingSpeed = 5.5F;
-  float jumpStart = -7.0F;
+  float jumpStart = -8.7F;
 
   int lastY;
   Rectangle rec;
 
-  public Racquet(Game game)
+  // Checkpoint
+  int checkpointX;
+  int checkpointY;
+
+  // Items
+  String aktivesItem = "null";
+  Item akItem;
+
+  public Racquet(GameStates gameStates)
   {
-    this.game = game;
+    this.game = gameStates;
+
+    x = gameStates.level.getPlayerSpawnX();
+    y = gameStates.level.getPlayerSpawnY();
+
+    checkpointX = x;
+    checkpointY = y;
   }
 
   public void update()
   {
-    if ( tot == false)
+    if (tot == false)
     {
 
-    // System.out.println("move");
-    // System.out.println(y);
-    yTemp = y;
-    xTemp = x;
-
-    // System.out.println("vorher");
-    // System.out.println(y);
-
-    jumpGlitch();
-    // System.out.println("nacher");
-    // System.out.println(y);
-    collision();
-    
-   nichtAngreifbar();
-     sterbenFall();
-    
-     
-    
-    // System.out.println("coli");
-    // System.out.println(x);
-    if (glitch == false)
-    {
-
-      calculateMovement();
+      // System.out.println("move");
+      // System.out.println(y);
       yTemp = y;
       xTemp = x;
 
-      calculateCollision();
+      // System.out.println("vorher");
+      // System.out.println(y);
 
-      // System.out.println(yTemp - y);
       jumpGlitch();
-      move();
+      // System.out.println("nacher");
+      // System.out.println(y);
       collision();
 
-    }
-    if (ausgabe)
+      nichtAngreifbar();
+      sterbenFall();
+      item();
+
+      // System.out.println("coli");
+      // System.out.println(x);
+      if (glitch == false)
+      {
+
+        calculateMovement();
+        yTemp = y;
+        xTemp = x;
+
+        calculateCollision();
+
+        // System.out.println(yTemp - y);
+        jumpGlitch();
+        move();
+        collision();
+
+      }
+      if (ausgabe)
+      {
+        // System.out.println(topLeft);
+        // System.out.println(topRight);
+        // System.out.println(bottomLeft);
+
+      }
+    } else
     {
-      // System.out.println(topLeft);
-      // System.out.println(topRight);
-      // System.out.println(bottomLeft);
-  
-    }
-    }
-    else
-    {
-      
+
     }
   }
 
@@ -131,7 +148,7 @@ public class Racquet
       // System.out.println(Level.map[getBlockKordinateY(y)][getBlockKordinateX(x)]);
       if (game.level.blocke[getBlockKordinateY(y)][getBlockKordinateX(xTemp)].walkable == false)
       {
-       
+
         while (game.level.blocke[getBlockKordinateY(y)][getBlockKordinateX(xTemp)].getBounds().intersects(getBounds()))
         {
 
@@ -174,7 +191,6 @@ public class Racquet
         {
           glitchInit = true;
           y = yTemp;
-     
 
         }
 
@@ -185,7 +201,7 @@ public class Racquet
       if ((h) > 3)
 
       {
-      
+
         glitch = true;
 
         xTemp = x;
@@ -197,7 +213,6 @@ public class Racquet
               .intersects(getBounds()))
           {
             x = x - 1;
-           
 
           }
         }
@@ -209,7 +224,7 @@ public class Racquet
           glitch = false;
           glitchInit = false;
           jump = true;
-         
+
         }
 
         /*
@@ -241,7 +256,7 @@ public class Racquet
       dy = 0;
 
       int playerY = getBlockKordinateY((int) toY + HEIGHT);
-   
+
       y = playerY * blockSize - HEIGHT;
 
     }
@@ -257,7 +272,7 @@ public class Racquet
     {
       if (topLeft == true || midLeft == true || bottomLeft == true)
       {
-    
+
         dx = 0;
       }
 
@@ -374,20 +389,18 @@ public class Racquet
 
   public void paint(Graphics2D g)
   {
-    if(angreifbar == true)
+    if (angreifbar == true)
     {
       g.setColor(Color.BLACK);
     }
-    
-    if(angreifbar == false)
+
+    if (angreifbar == false)
     {
       g.setColor(Color.ORANGE);
     }
     g.fillRect(x, y, WIDTH, HEIGHT);
-    
+
     Graphics2D g2d = (Graphics2D) g;
-    
-    
 
   }
 
@@ -407,6 +420,10 @@ public class Racquet
     case KeyEvent.VK_H:
       ausgabe = false;
       break;
+    case KeyEvent.VK_SPACE:
+      interaction = false;
+      break;
+
     }
   }
 
@@ -432,6 +449,9 @@ public class Racquet
     case KeyEvent.VK_H:
       ausgabe = true;
       break;
+    case KeyEvent.VK_SPACE:
+      interaction = true;
+      break;
 
     }
   }
@@ -440,10 +460,20 @@ public class Racquet
   {
     return x;
   }
-  
+
   public float getY()
   {
     return y;
+  }
+
+  public void setX(int px)
+  {
+    x = px;
+  }
+
+  public void setY(int py)
+  {
+    y = py;
   }
 
   public void bodenFall()
@@ -451,7 +481,7 @@ public class Racquet
     if (game.level.blocke[blockKorY + 1][blockKorX].walkable == true
         && game.level.blocke[blockKorY + 1][blockKorX + 1].walkable == true && jump == false)
     {
-     
+
       falling = true;
     }
   }
@@ -473,56 +503,90 @@ public class Racquet
 
   public boolean sterben()
   {
-    
-    
-   tot = true;
- 
-  
-   
-   return tot;
-    
+
+    tot = true;
+
+    return tot;
+
   }
-  
+
   public void sterbenFall()
   {
     int maxY;
-    
+
     maxY = game.level.getMaxY();
-    
-    if(y > maxY)
+
+    if (y > maxY)
     {
-      sterben();
+      x = checkpointX;
+      y = checkpointY;
+
+      game.leben.lebenAbziehen();
     }
   }
 
   public void nichtAngreifbar()
   {
-    double timeNow = System.nanoTime()/1000000000;
-    
-    if(timerGesetzt == false && game.leben.timerSetzen == true)
+    double timeNow = System.nanoTime() / 1000000000;
+
+    if (timerGesetzt == false && game.leben.timerSetzen == true)
     {
-      anfangsTime = System.nanoTime()/1000000000;
+      anfangsTime = System.nanoTime() / 1000000000;
       timerGesetzt = true;
       angreifbar = false;
-      
-    }
-    else
+
+    } else
     {
-      
-      System.out.println(timeNow - anfangsTime);
-      if(timeNow - anfangsTime > 5)
+
+      // System.out.println(timeNow - anfangsTime);
+      if (timeNow - anfangsTime > 5)
       {
         angreifbar = true;
         timerGesetzt = false;
         game.leben.timerSetzen = false;
       }
     }
-    
-    
-    
-    
-    
-    
+
+  }
+
+  public void item()
+  {
+    double timeNow = System.nanoTime() / 1000000;
+    if (interaction == true)
+    {
+      if (timerGesetztItem == false)
+      {
+        anfangsTimeItem = System.nanoTime() / 1000000;
+        timerGesetztItem = true;
+
+        switch (aktivesItem)
+        {
+        case "none":
+
+          break;
+
+        case "feuer":
+
+          akItem = new ItemFeuerKugel(game, x, y);
+
+          game.items.add(akItem);
+          akItem.setItem(akItem);
+          akItem.update();
+
+          break;
+        }
+
+      } else
+      {
+
+        if (timeNow - anfangsTimeItem > 500)
+        {
+          timerGesetztItem = false;
+
+        }
+      }
+    }
+
   }
 
 }
