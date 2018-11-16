@@ -12,6 +12,7 @@ public class GameStates
   Leben leben;
   LevelSelect levelSelect;
   Muenze muenze;
+  Assets assets;
   static boolean levelInit = false;
   boolean levelGegnerInit = false;
   boolean levelGegner = false;
@@ -25,7 +26,8 @@ public class GameStates
 
   public void levelErstellen() throws IOException
   {
-    Assets.init();
+   assets = new Assets();
+   assets.init();
     LevelFileReader.LevelRead();
     if (LevelFileReader.levelGelesen == true)
     {
@@ -41,6 +43,18 @@ public class GameStates
 
   public void levelUpdate()
   {
+    
+    if (racquet.hTaste)
+    {
+      Game.modus = "levelSelect";
+      Game.modusSet = false;
+      
+      Game.modus = "level";
+      Game.modusSet = false;
+      
+      
+
+    }
     Entity aktuellesItem;
     int i, j, k, ii;
 
@@ -77,7 +91,7 @@ public class GameStates
 
     if (levelGegner == true && levelGegnerInit == false)
     {
-      level.gegnerSpawn();
+     // level.gegnerSpawn();
       levelGegnerInit = true;
 
     }

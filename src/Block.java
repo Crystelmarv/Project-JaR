@@ -39,12 +39,12 @@ public class Block extends Entity
 
       break;
     // Gras
-    case 2:
+    case 30:
       g.drawImage(Assets.gras, x, y, null);
 
       break;
     // Erde
-    case 3:
+    case 31:
       g.drawImage(Assets.erde, x, y, null);
 
       break;

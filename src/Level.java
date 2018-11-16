@@ -18,9 +18,11 @@ public class Level
   static int map[][];
   int playerX;
   int playerY;
+  
+  
 
   Entity[][] blocke = new Entity[map.length][map[0].length];
-  FirstGegner[] gegner;
+  GegnerDachs[] gegner;
 
   // map.length --> y Achse
   // map[0].lenth --> x Achse
@@ -60,6 +62,8 @@ public class Level
         // Weiß
         case 20:
         case 53:
+        case 30:
+        case 31:
 
           blocke[by][bx] = new Block(game);
           blocke[by][bx].setBlock(x, y);
@@ -102,7 +106,7 @@ public class Level
           break;
           
           //First Gegner
-        case 26:
+       /* case 26:
           k++;
 
           blocke[by][bx] = new Block(game);
@@ -110,6 +114,8 @@ public class Level
 
           // blocke[by][bx].paint(g);
           break;
+          
+          */
         case 07:
           blocke[by][bx] = new BlockZerstoerbar(game);
           blocke[by][bx].setBlock(x, y);
@@ -165,6 +171,25 @@ public class Level
           blocke[by][bx].setBlock(x, y);
           break;
           
+          //Level Tod
+        case 18:
+          blocke[by][bx] = new LevelTod(game);
+          blocke[by][bx].setBlock(x, y);
+          break;
+          
+          
+          
+          //Gegner Spawn
+          
+        case 70:
+        case 71:
+          blocke[by][bx] = new GegnerSpawn(game);
+          blocke[by][bx].setBlock(x, y);
+          blocke[by][bx].init();
+         
+          break;
+          
+          
        
           
           
@@ -194,7 +219,7 @@ public class Level
     maxY = y - 64 * 2;
     if (k > 0)
     {
-      gegner = new FirstGegner[k];
+      gegner = new GegnerDachs[k];
 
     }
 
@@ -221,6 +246,7 @@ public class Level
 
   }
 
+  /*
   public void gegnerSpawn()
   {
     int i, j;
@@ -234,7 +260,7 @@ public class Level
       {
         if (map[i][j] == 26)
         {
-          gegner[k] = new FirstGegner(game);
+          gegner[k] = new GegnerDachs(game);
           gegner[k].setBlock(x, y);
           k++;
         }
@@ -247,6 +273,7 @@ public class Level
     gegnerInLevel = true;
 
   }
+  */
 
   public int getMaxY()
   {

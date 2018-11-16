@@ -1,7 +1,10 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class LevelFileReader
 {
@@ -27,8 +30,8 @@ public class LevelFileReader
     String currentLine;
 
     setLevelPfad();
-    FileReader fileReader = new FileReader(levelPfad);
-    BufferedReader bufferedReader = new BufferedReader(fileReader);
+    InputStream is = Game.class.getResourceAsStream(levelPfad);
+    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
 
     while ((currentLine = bufferedReader.readLine()) != null)
     {
@@ -49,8 +52,9 @@ public class LevelFileReader
 
     String currentLine;
     setLevelPfad();
-    FileReader fileReader = new FileReader(levelPfad);
-    BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+    InputStream is = Game.class.getResourceAsStream(levelPfad);
+    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
 
     currentLine = bufferedReader.readLine();
 
@@ -66,8 +70,8 @@ public class LevelFileReader
 
     String currentLine;
     setLevelPfad();
-    FileReader fileReader = new FileReader(levelPfad);
-    BufferedReader bufferedReader = new BufferedReader(fileReader);
+    InputStream is = Game.class.getResourceAsStream(levelPfad);
+    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
 
     while ((currentLine = bufferedReader.readLine()) != null)
     {
@@ -98,13 +102,13 @@ public class LevelFileReader
     switch (level)
     {
     case 1:
-      levelPfad = "res/level/1.Level.txt";
-      levelPfadSchild = "res/level/1.Level_Schild.txt";
+      levelPfad = "/level/1.Level.txt";
+      levelPfadSchild = "/level/1.Level_Schild.txt";
       break;
 
     case 2:
-      levelPfad = "res/level/2.Level.txt";
-      levelPfadSchild = "res/level/2.Level_Schild.txt";
+      levelPfad = "/level/2.Level.txt";
+      levelPfadSchild = "/level/2.Level_Schild.txt";
       break;
     }
   }
@@ -114,30 +118,26 @@ public class LevelFileReader
     schildArrayInit();
 
     String currentLine;
-    int i=0;
+    int i = 0;
     String trenner = "123ABC";
 
-    FileReader fileReader = new FileReader(levelPfadSchild);
-    BufferedReader bufferedReader = new BufferedReader(fileReader);
-
+    InputStream is = Game.class.getResourceAsStream(levelPfadSchild);
+    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
 
     while ((currentLine = bufferedReader.readLine()) != null)
     {
-        
-        if (currentLine.regionMatches(0, trenner, 0, trenner.length()))
-        {
-          i++;
-        }
-        else
-        {
-          schildText[i] = currentLine;
-          System.out.println(schildText[i]);
-        }
-        
-        
+
+      if (currentLine.regionMatches(0, trenner, 0, trenner.length()))
+      {
+        i++;
+      } else
+      {
+        schildText[i] = currentLine;
+        System.out.println(schildText[i]);
       }
-      
-    
+
+    }
+
   }
 
   public static void schildArrayInit() throws IOException
@@ -146,8 +146,8 @@ public class LevelFileReader
     String currentLine;
     int i = 1;
 
-    FileReader fileReader = new FileReader(levelPfadSchild);
-    BufferedReader bufferedReader = new BufferedReader(fileReader);
+    InputStream is = Game.class.getResourceAsStream(levelPfadSchild);
+    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
 
     while ((currentLine = bufferedReader.readLine()) != null)
     {

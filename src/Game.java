@@ -90,11 +90,9 @@ public class Game extends JPanel
     switch (modus)
     {
     case "levelSelect":
-      System.out.println(init4);
       if (init4 == true)
       {
         gameState.menuePaint(g2d);
-        System.out.println("PAINT");
 
       }
 
@@ -143,7 +141,6 @@ public class Game extends JPanel
         switch (modus)
         {
         case "levelSelect":
-          System.out.println("while modus");
           game.requestFocus();
           game.modus();
 

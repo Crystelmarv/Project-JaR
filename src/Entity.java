@@ -49,4 +49,10 @@ public class Entity
     
   }
 
+  public void init()
+  {
+    // TODO Auto-generated method stub
+    
+  }
+
 }

@@ -14,11 +14,11 @@ public class Assets
   
   public static BufferedImage gras, erde, blauerBlock, orangerBlock, schild, orangerBlockOhneKreuz;
   
-  public static void init()
+  public void init()
   {
     try
     {
-      sheet = new SpriteSheet(ImageIO.read(new File("res/textures/TilesSheet.png")));
+      sheet = new SpriteSheet(ImageIO.read(getClass().getResource("/textures/TilesSheet.png")));
     } catch (IOException e)
     {
       e.printStackTrace();

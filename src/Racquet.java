@@ -21,6 +21,7 @@ public class Racquet
   boolean ausgabe = false;
   float speed = 6.75F;
   int h = 0;
+  boolean hTaste = false;
 
   boolean tot = false;
 
@@ -120,13 +121,7 @@ public class Racquet
         collision();
 
       }
-      if (ausgabe)
-      {
-        // System.out.println(topLeft);
-        // System.out.println(topRight);
-        // System.out.println(bottomLeft);
-
-      }
+     
     } else
     {
 
@@ -345,6 +340,7 @@ public class Racquet
       bottomRight = true;
     }
     // System.out.println(Level.map[bottomTile][leftTile]);
+   // System.out.println(game.level.blocke[bottomTile][rightTile].walkable);
 
   }
 
@@ -418,7 +414,7 @@ public class Racquet
       right = false;
       break;
     case KeyEvent.VK_H:
-      ausgabe = false;
+      hTaste = false;
       break;
     case KeyEvent.VK_SPACE:
       interaction = false;
@@ -447,7 +443,7 @@ public class Racquet
       right = true;
       break;
     case KeyEvent.VK_H:
-      ausgabe = true;
+     hTaste = true;
       break;
     case KeyEvent.VK_SPACE:
       interaction = true;
