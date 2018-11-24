@@ -7,15 +7,15 @@ public class Leben
   int aktuelleLeben = 3;
   float[] x;
   float y;
-  GameStates game;
+  GameStates gameStates;
   boolean tot = false;
   boolean timerSetzen = false;
 
   boolean test = false;
 
-  public Leben(GameStates game)
+  public Leben(GameStates gameStates)
   {
-    this.game = game;
+    this.gameStates = gameStates;
 
     x = new float[maxLeben];
   }
@@ -30,12 +30,15 @@ public class Leben
     {
       g.setColor(Color.BLACK);
       g.fillRect(0, 0, 999999, 99999);
+      Game.modus = "levelSelect";
+      Game.modusSet = false;
+      Game.init4 = false;
+      gameStates.items.clear();
     }
 
     for (i = 0; i < aktuelleLeben; i++)
     {
-      g.setColor(Color.RED);
-      g.fillOval((int) x[i], (int) y, 64, 64);
+      g.drawImage(Assets.herz, (int)x[i], (int)y, null);
     }
   }
 
@@ -58,7 +61,7 @@ public class Leben
   {
     if (aktuelleLeben <= 0)
     {
-      tot = game.racquet.sterben();
+      tot = gameStates.racquet.sterben();
 
     }
 
@@ -66,11 +69,11 @@ public class Leben
 
   public void lebenAbziehen()
   {
-    if (game.racquet.angreifbar == true)
+    if (gameStates.racquet.angreifbar == true)
     {
       aktuelleLeben--;
       timerSetzen = true;
-      game.racquet.nichtAngreifbar();
+      gameStates.racquet.nichtAngreifbar();
     }
 
   }

@@ -10,13 +10,14 @@ public class LevelZiel extends Entity
   {
     this.gameStats = game;
     walkable = true;
+    dev = true;
 
   }
   
   public void paint(Graphics2D g)
   {
 
-    g.drawImage(Assets.erde, x, y, null);
+    g.drawImage(Assets.ziel, x, y, null);
     
 
   }
@@ -28,6 +29,7 @@ public class LevelZiel extends Entity
       System.out.println("ZIIIIIIEL");
       Game.modus = "levelSelect";
      Game.modusSet = false;
+     Game.init4 = false;
      listenLeerer();
       
     }

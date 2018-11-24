@@ -29,11 +29,13 @@ public class Block extends Entity
     case 20:
       g.setColor(Color.WHITE);
       walkable = true;
+      dev = true;
       g.fillRect(x, y, blockBreite, blockHöhe);
 
       break;
     // helles Blau
     case 21:
+      
       g.setColor(new Color(0, 178, 238));
       g.fillRect(x, y, blockBreite, blockHöhe);
 
@@ -63,6 +65,7 @@ public class Block extends Entity
 
       g.setColor(Color.GRAY);
       walkable = true;
+      dev = true;
       g.fillRect(x, y, blockBreite, blockHöhe);
 
       break;
@@ -70,6 +73,7 @@ public class Block extends Entity
     case 53:
       g.setColor(Color.WHITE);
       walkable = true;
+      dev = true;
       g.fillRect(x, y, blockBreite, blockHöhe);
 
       if (vorhaneden == false)
@@ -82,6 +86,30 @@ public class Block extends Entity
       }
 
       break;
+
+    // Wasser
+    case 33:
+      g.drawImage(Assets.wasser, x, y, null);
+      walkable = true;
+      dev = true;
+      break;
+      
+      //Seerose
+    case 34:
+      g.drawImage(Assets.seerose, x, y, null);
+      
+      break;
+      
+      //DevBlock
+    case 22: 
+      walkable = true;
+    
+      g.drawImage(Assets.devBlock, x, y, null);
+     
+    
+      break;
+      
+      
 
     }
 

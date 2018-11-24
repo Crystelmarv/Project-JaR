@@ -14,8 +14,9 @@ public class ItemMuenze extends Item
 
     this.gameStates = gameStates;
     x = xp;
-    y = yp-hoehe;
+    y = yp-64;
     walkable = true;
+    dev = true;
   }
   
   public void update()
@@ -25,7 +26,8 @@ public class ItemMuenze extends Item
   
   public void paint(Graphics2D g)
   {
-    g.fillRect(x, y, breite, hoehe);
+    g.drawImage(Assets.apfel, x, y, null);
+
   }
   
   public Rectangle getBounds()

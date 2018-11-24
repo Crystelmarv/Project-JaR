@@ -18,11 +18,12 @@ public class Level
   static int map[][];
   int playerX;
   int playerY;
+  int moeglicheAepfel = 0;
   
   
 
   Entity[][] blocke = new Entity[map.length][map[0].length];
-  GegnerDachs[] gegner;
+  GegnerMarienKaefer[] gegner;
 
   // map.length --> y Achse
   // map[0].lenth --> x Achse
@@ -59,14 +60,22 @@ public class Level
         blockArt = blockArt(ix, iy);
         switch (blockArt)
         {
-        // Weiß
+        // Block
         case 20:
         case 53:
         case 30:
         case 31:
+        case 33:
+        case 34:
+        case 22:
 
           blocke[by][bx] = new Block(game);
           blocke[by][bx].setBlock(x, y);
+          
+          if(blockArt == 53)
+          {
+            moeglicheAepfel++;
+          }
 
           break;
         // helles Blau
@@ -76,52 +85,13 @@ public class Level
           blocke[by][bx].setBlock(x, y);
 
           break;
-        // helles Grün
-        case 02:
-
-          blocke[by][bx] = new Block(game);
-          blocke[by][bx].setBlock(x, y);
-
-          break;
-        // Gelb
-        case 03:
-
-          blocke[by][bx] = new Block(game);
-          blocke[by][bx].setBlock(x, y);
-
-          break;
-        // Schwarz
-        case 04:
-
-          blocke[by][bx] = new Block(game);
-          blocke[by][bx].setBlock(x, y);
-
-          break;
-        // Braun
-        case 05:
-
-          blocke[by][bx] = new Block(game);
-          blocke[by][bx].setBlock(x, y);
-
-          break;
-          
-          //First Gegner
-       /* case 26:
-          k++;
-
-          blocke[by][bx] = new Block(game);
-          blocke[by][bx].setBlock(x, y);
-
-          // blocke[by][bx].paint(g);
-          break;
-          
-          */
-        case 07:
+     
+        case 32:
           blocke[by][bx] = new BlockZerstoerbar(game);
           blocke[by][bx].setBlock(x, y);
           break;
 
-        case 9:
+        case 19:
           //Schild
           if(schilTextLaden == false)
           {
@@ -146,6 +116,11 @@ public class Level
 
           blocke[by][bx] = new BlockItem(game);
           blocke[by][bx].setBlock(x, y);
+          
+          if(blockArt == 52)
+          {
+            moeglicheAepfel++;
+          }
 
           break;
          
@@ -183,6 +158,8 @@ public class Level
           
         case 70:
         case 71:
+        case 72:
+        case 73:
           blocke[by][bx] = new GegnerSpawn(game);
           blocke[by][bx].setBlock(x, y);
           blocke[by][bx].init();
@@ -219,7 +196,7 @@ public class Level
     maxY = y - 64 * 2;
     if (k > 0)
     {
-      gegner = new GegnerDachs[k];
+      gegner = new GegnerMarienKaefer[k];
 
     }
 
@@ -284,6 +261,8 @@ public class Level
   public static void setMap(int i, int j)
   {
     map = new int[j][i];
+    System.out.println("j" +j);
+    System.out.println(i);
 
   }
 

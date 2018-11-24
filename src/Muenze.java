@@ -25,16 +25,20 @@ public class Muenze
   {
     int i;
 
-    Graphics2D g2d = (Graphics2D) g;
+    //Graphics2D g2d = (Graphics2D) g;
 
     
-      g.setColor(Color.YELLOW);
-      g.fillOval((int) x, (int) y, 64, 64);
+      
+      g.drawImage(Assets.apfel, (int)x, (int)y, null);
+
       
       Font test = new Font("Arial", Font.BOLD, 30);
       g.setFont(test);
       g.setColor(Color.black);
-      g.drawString(Integer.toString(muenzen), x+80, y+45);
+      g.drawString(Integer.toString(muenzen) + "/" + (Integer.toString(game.level.moeglicheAepfel)),
+          x+80, y+45);
+      
+      
     
   }
 

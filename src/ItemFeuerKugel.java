@@ -21,6 +21,7 @@ public class ItemFeuerKugel extends Item
     x = xp + 50;
     y = yp;
     walkable = true;
+    dev = true;
   }
 
   public void update()

@@ -7,23 +7,7 @@ import javax.swing.JPanel;
 public class KeyboardExample extends JPanel {
 	
 	public KeyboardExample() {
-		KeyListener listener = new KeyListener() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-			
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-		
-			}
-		};
-		addKeyListener(listener);
-		setFocusable(true);
+	
 	}
 	
 	public static void main(String[] args) {

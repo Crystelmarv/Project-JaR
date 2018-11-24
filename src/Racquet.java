@@ -497,9 +497,15 @@ public class Racquet
     return blockKorX = x / blockSize;
   }
 
+  
+  public void respawnAtCheckpoint()
+  {
+    x = checkpointX;
+    y = checkpointY;
+  }
   public boolean sterben()
   {
-
+   
     tot = true;
 
     return tot;

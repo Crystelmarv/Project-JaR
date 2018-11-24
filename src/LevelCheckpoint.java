@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 public class LevelCheckpoint extends Entity
@@ -9,11 +10,24 @@ public class LevelCheckpoint extends Entity
   {
     this.gameStats = game;
     walkable = true;
+    dev = true;
   }
 
   public void paint(Graphics2D g)
   {
-    g.drawImage(Assets.orangerBlockOhneKreuz, x, y, null);
+    g.setColor(Color.WHITE);
+    g.fillRect(x, y, 64, 64);
+    g.drawImage(Assets.checkPointUnten, x, y, null);
+    
+    if(checkpointSet == false)
+    {
+      g.drawImage(Assets.checkPointObenAus, x, y -64,null);
+    }
+    if(checkpointSet == true)
+    {
+      g.drawImage(Assets.checkPointObenAn, x, y -64,null);
+    }
+    
   }
 
   public void update()

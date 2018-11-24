@@ -15,6 +15,7 @@ public class Entity
   Graphics2D gx;
   Block block;
   boolean walkable;
+  boolean dev;
   
 
   public void setBlock(int xp, int yp)

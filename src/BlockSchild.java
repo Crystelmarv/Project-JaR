@@ -20,6 +20,7 @@ public class BlockSchild extends Entity
   {
 
     walkable = true;
+    dev = true;
 
     if (interaction == true)
     {

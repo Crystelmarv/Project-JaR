@@ -65,7 +65,7 @@ public class Game extends JPanel
 
   }
 
-  private void update()
+  private void update() throws IOException
 
   {
     // keyLIs.KeyLisInit();
@@ -75,7 +75,15 @@ public class Game extends JPanel
 
       break;
     case "level":
-      gameState.levelUpdate();
+      if(init1 == true)
+      {
+        gameState.levelUpdate();
+      }
+     
+      break;
+      
+    case "ladeScreen":
+     gameState.ladeScreenUpdate();
       break;
     }
 
@@ -104,6 +112,10 @@ public class Game extends JPanel
         gameState.levelPaint(g2d);
       }
       break;
+      
+    case "ladeScreen":
+     gameState.ladeScreenPaint(g2d);
+      break;
     }
   }
 
@@ -119,15 +131,16 @@ public class Game extends JPanel
 
     frame = new JFrame("");
     Game game = new Game();
-
     frame.add(game);
 
     frame.setSize(wBreite, wHoehe);
-    frame.setTitle("Mal wieder ein Test");
-    frame.setResizable(true);
+    frame.setTitle("JaR - BETA 1.0");
+    frame.setResizable(false);
     frame.setLocationRelativeTo(null);
     frame.setVisible(true);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    
+  
 
     while (true)
     {
@@ -157,6 +170,12 @@ public class Game extends JPanel
           game.repaint();
           // System.out.println(Racquet.x);
 
+          break;
+          
+        case "ladeScreen":
+          game.modus();
+          game.update();
+          game.repaint();
           break;
         }
         ticks++;
@@ -198,6 +217,14 @@ public class Game extends JPanel
       }
 
       break;
+    case "ladeScreen":
+      if (modusSet == false)
+      {
+        gameState.ladeScreenErstellen();
+        modusSet = true;
+      }
+      break;
+      
     }
   }
 

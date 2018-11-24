@@ -9,10 +9,15 @@ import java.io.InputStreamReader;
 public class LevelFileReader
 {
   static boolean levelGelesen = false;
+  static boolean levelNameGelesen = false;
   static String levelPfad = "";
-  static String levelPfadSchild = "";
   static int level = 1;
   static String[] schildText;
+  private static String levelName = "#ERROR levelName";
+
+  private static String trennerName = "NAME";
+  private static String trennerLevel = "LEVEL";
+  private static String trennerSchild = "SCHILD";
 
   public LevelFileReader()
   {
@@ -21,7 +26,7 @@ public class LevelFileReader
 
   public static void LevelRead() throws IOException
   {
-
+    setLevelPfad();
     ArrayInit();
 
     int i, j;
@@ -33,7 +38,15 @@ public class LevelFileReader
     InputStream is = Game.class.getResourceAsStream(levelPfad);
     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
 
-    while ((currentLine = bufferedReader.readLine()) != null)
+    do
+    {
+      currentLine = bufferedReader.readLine();
+      // System.out.println("5");
+
+    } while (!currentLine.regionMatches(0, trennerLevel, 0, trennerLevel.length()));
+    while ((currentLine = bufferedReader.readLine()) != null
+        && !currentLine.regionMatches(0, trennerName, 0, trennerName.length())
+        && !currentLine.regionMatches(0, trennerSchild, 0, trennerSchild.length()))
     {
       String[] values = currentLine.trim().split(" ");
 
@@ -56,10 +69,17 @@ public class LevelFileReader
     InputStream is = Game.class.getResourceAsStream(levelPfad);
     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
 
+    // currentLine = bufferedReader.readLine();
+
+    do
+    {
+      currentLine = bufferedReader.readLine();
+      System.out.println(currentLine);
+
+    } while (!currentLine.regionMatches(0, trennerLevel, 0, trennerLevel.length()));
     currentLine = bufferedReader.readLine();
-
     String[] values = currentLine.trim().split(" ");
-
+    // System.out.println(values.length);
     return values.length;
 
   }
@@ -73,15 +93,23 @@ public class LevelFileReader
     InputStream is = Game.class.getResourceAsStream(levelPfad);
     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
 
-    while ((currentLine = bufferedReader.readLine()) != null)
+    do
     {
-      if (currentLine != null)
-      {
-        i++;
-      }
+      currentLine = bufferedReader.readLine();
+      // System.out.println("5");
+
+    } while (!currentLine.regionMatches(0, trennerLevel, 0, trennerLevel.length()));
+    while ((currentLine = bufferedReader.readLine()) != null
+        && !currentLine.regionMatches(0, trennerName, 0, trennerName.length())
+        && !currentLine.regionMatches(0, trennerSchild, 0, trennerSchild.length()))
+    {
+      // if (currentLine != null)
+      // {
+      i++;
+      // }
 
     }
-
+    System.out.println(i);
     return i;
 
   }
@@ -103,12 +131,10 @@ public class LevelFileReader
     {
     case 1:
       levelPfad = "/level/1.Level.txt";
-      levelPfadSchild = "/level/1.Level_Schild.txt";
       break;
 
     case 2:
       levelPfad = "/level/2.Level.txt";
-      levelPfadSchild = "/level/2.Level_Schild.txt";
       break;
     }
   }
@@ -121,8 +147,15 @@ public class LevelFileReader
     int i = 0;
     String trenner = "123ABC";
 
-    InputStream is = Game.class.getResourceAsStream(levelPfadSchild);
+    InputStream is = Game.class.getResourceAsStream(levelPfad);
     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
+
+    do
+    {
+      currentLine = bufferedReader.readLine();
+      // System.out.println("5");
+
+    } while (!currentLine.regionMatches(0, trennerSchild, 0, trennerSchild.length()));
 
     while ((currentLine = bufferedReader.readLine()) != null)
     {
@@ -146,9 +179,15 @@ public class LevelFileReader
     String currentLine;
     int i = 1;
 
-    InputStream is = Game.class.getResourceAsStream(levelPfadSchild);
+    InputStream is = Game.class.getResourceAsStream(levelPfad);
     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
 
+    do
+    {
+      currentLine = bufferedReader.readLine();
+      // System.out.println("5");
+
+    } while (!currentLine.regionMatches(0, trennerSchild, 0, trennerSchild.length()));
     while ((currentLine = bufferedReader.readLine()) != null)
     {
       if (currentLine.regionMatches(0, trenner, 0, trenner.length()))
@@ -161,5 +200,27 @@ public class LevelFileReader
     }
 
     schildText = new String[i];
+  }
+
+  public static String getLevelName()
+  {
+    return levelName;
+  }
+
+  public static void levelNameLaden() throws IOException
+  {
+    setLevelPfad();
+    String currentLine;
+    InputStream is = Game.class.getResourceAsStream(levelPfad);
+    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
+    do
+    {
+      currentLine = bufferedReader.readLine();
+      System.out.println(currentLine);
+
+    } while (!currentLine.regionMatches(0, trennerName, 0, trennerName.length()));
+
+    levelName = bufferedReader.readLine();
+    levelNameGelesen = true;
   }
 }

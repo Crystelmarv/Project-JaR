@@ -21,7 +21,7 @@ public class BlockZerstoerbar extends Entity
     switch (blockArt)
     {
     // Orange Block zerstörbar
-    case 7:
+    case 32:
       if(getroffen == true)
       {
         g.setColor(Color.WHITE);
@@ -65,6 +65,7 @@ public class BlockZerstoerbar extends Entity
   private void zerströren()
   {
     walkable = true;
+    dev = true;
   }
 
   public Rectangle getBounds()

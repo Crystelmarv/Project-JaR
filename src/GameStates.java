@@ -13,6 +13,7 @@ public class GameStates
   LevelSelect levelSelect;
   Muenze muenze;
   Assets assets;
+  LadeScreen ladeScreen;
   static boolean levelInit = false;
   boolean levelGegnerInit = false;
   boolean levelGegner = false;
@@ -21,14 +22,40 @@ public class GameStates
   public GameStates(Game game)
   {
     this.game = game;
+    
+  //  game.add(levelSelect);
+   
 
   }
+public void ladeScreenErstellen() throws IOException
+{
+  LevelFileReader.levelNameLaden();
+  ladeScreen = new LadeScreen(this) ;
+  
+  
+  
+}
 
+public void ladeScreenUpdate() throws IOException
+{
+ 
+  ladeScreen.update();
+  
+}
+
+public void ladeScreenPaint(Graphics2D g)
+{
+  if (LevelFileReader.levelNameGelesen == true)
+  {
+  ladeScreen.paint(g);
+  }
+}
   public void levelErstellen() throws IOException
   {
+    LevelFileReader.LevelRead();
    assets = new Assets();
    assets.init();
-    LevelFileReader.LevelRead();
+   // LevelFileReader.LevelRead();
     if (LevelFileReader.levelGelesen == true)
     {
       level = new Level(this);
@@ -146,6 +173,7 @@ public class GameStates
   public void menueInit()
   {
     levelSelect = new LevelSelect(game);
+   
     
   }
 

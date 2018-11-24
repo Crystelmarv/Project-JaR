@@ -10,6 +10,7 @@ public class LevelTod extends Entity
   {
     this.gameStates = game;
     walkable = true;
+    dev = true;
 
   }
 
@@ -25,7 +26,8 @@ public class LevelTod extends Entity
   {
     if (gameStates.racquet.getBounds().intersects(getBounds()))
     {
-      System.out.println("TOOOOOOOOOOOOOOOOOOT");
+      gameStates.racquet.respawnAtCheckpoint();
+      gameStates.leben.lebenAbziehen();
     }
   }
   

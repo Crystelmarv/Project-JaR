@@ -16,6 +16,7 @@ public class ItemFeuer extends Item
     x = xp;
     y = yp - hoehe;
     walkable = true;
+    dev = true;
   }
 
   public void update()
